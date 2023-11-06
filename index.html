@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="nl">
+
+<head>
+    <meta charset="utf-8">
+    <title>Forms tester</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    .d-flex {
+        display: flex;
+    }
+    .justify-content-between {
+        justify-content: space-between;
+    }
+    .order-1 {
+        order: 1;
+    }
+    .order-2 {
+        order: 2;
+    }
+    .capitalize {
+        text-transform: uppercase;
+    }
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0,0,0,0);
+        white-space: nowrap;
+        clip-path: inset(50%);
+        border: 0;
+    }
+    .bi {
+        display: inline-block;
+        vertical-align: -0.125em;
+        fill: currentcolor;
+    }
+
+    .input-error {
+        padding-inline-start: 2rem;
+        position: relative;
+    }
+    .input-error .bi {
+        position: absolute;
+        left: .5rem;
+    }
+    </style>
+</head>
+
+<body>
+<main>
+    <h1>Forms tester</h1>
+
+    <!--
+        DOCUMENTATION:
+        - Clearly Identify Required Form Fields https://dequeuniversity.com/tips/identify-required-elements
+        - Marking Required Fields in Forms https://www.nngroup.com/articles/required-fields/
+        - HTML attribute: autocomplete https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
+        - Recover from validation errors https://design-system.service.gov.uk/patterns/validation/
+        - Turn off HTML5 validation https://design-system.service.gov.uk/patterns/validation/#turn-off-html5-validation
+
+        TODO:
+        - implement client-side validation (required fields, correct format, etc)
+        - implement server-side validation
+    -->
+
+    <form method="post" action="/bestellen/gegevens-lening" novalidate>
+
+        <!--
+            NOTE:
+            this role="alert" element should be shown when
+            - submitting the form (client-side), either by pressing the submit button or pressing ENTER key on keyboard when focus is in an input field
+            - the form was submitted and backend validation found 1 or more issues
+        -->
+        <div role="alert">
+            <h2>Er zijn vier problemen in dit formulier</h2>
+            <ul>
+                <li>
+                    <a href="#birthdate">
+                        De geboortedatum datum heeft een incorrect format (gebruik DD-MM-JJJJ)
+                    </a>
+                </li>
+                <li>
+                    <a href="#housenumber-addition">
+                        De toevoeging is niet bekend
+                    </a>
+                </li>
+                <li>
+                    <a href="#nationality">
+                        Nationaliteit is niet gekozen
+                    </a>
+                </li>
+                <li>
+                    <a href="#document-expiry">
+                        De vervaldatum van de legitimatie heeft een incorrect formaat (gebruik DD-MM-JJJJ)
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <p>Alle velden gemarkeerd met een * zijn verplicht</p>
+        <fieldset>
+            <legend><h2>Je persoonsgegevens</h2></legend>
+
+            <fieldset>
+                <legend>Type bestelling *</legend>
+                <div>
+                    <input type="radio" id="type-order-prive" name="type-order" value="prive" class="form-field" aria-required="true" checked>
+                    <label for="type-order-prive">Privé</label>
+                </div>
+                <div>
+                    <input type="radio" id="type-order-zakelijk" name="type-order" value="zakelijk" class="form-field" aria-required="true">
+                    <label for="type-order-zakelijk">Zakelijk</label>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Aanhef *</legend>
+                <div>
+                    <input type="radio" id="salutation-meneer" name="salutation" value="meneer" class="form-field" aria-required="true" checked>
+                    <label for="salutation-meneer">Meneer</label>
+                </div>
+                <div>
+                    <input type="radio" id="salutation-mevrouw" name="salutation" value="mevrouw" class="form-field" aria-required="true">
+                    <label for="salutation-mevrouw">Mevrouw</label>
+                </div>
+            </fieldset>
+
+            <div>
+                <label for="initials">Voorletters *</label>
+                <!-- NOTE: not sure what works best, autocomplete="on" or autocomplete="given-name", should be tested -->
+                <input type="text" id="initials" name="initials" class="form-field" aria-required="true" autocomplete="on">
+            </div>
+
+            <div>
+                <label for="infix">Tussenvoegsels</label>
+                <input type="text" id="infix" name="infix" class="form-field" autocomplete="additional-name">
+            </div>
+
+            <div>
+                <label for="lastname">Achternaam *</label>
+                <!--
+                    NOTE: Sometimes, browsers will spellcheck the information a user enters into a text input. To make sure user’s names will not be spellchecked, set the spellcheck attribute to false (spellcheck="false") on the input
+                -->
+                <input type="text" id="lastname" name="lastname" class="form-field" aria-required="true" autocomplete="family-name">
+            </div>
+
+            <div>
+                <label for="birthdate">Geboortedatum</label>
+                <input type="text" id="birthdate" name="birthdate" class="form-field" autocomplete="bday" aria-describedby="firstname-error-format">
+                <!-- NOTE: error description either already shown after client-side validation else after submit -->
+                <div class="input-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </svg>
+                    <p id="firstname-error-format">Gebruik het formaat <span class="capitalize">dd-mm-jjjj</span></p>
+                </div>
+            </div>
+
+        </fieldset>
+
+        <fieldset>
+            <legend><h2>Hoe kunnen we je bereiken</h2></legend>
+            <p>Wil je sms'jes ontvangen met de status van je bestelling? Vul dan je mobiele nummer in.</p>
+
+            <div>
+                <label for="mobile-number">Mobiele telefoonnummer</label>
+                <input type="text" id="mobile-number" name="mobile-number" class="form-field" autocomplete="tel">
+            </div>
+
+            <div>
+                <label for="email">E-mailadres *</label>
+                <input type="text" id="email" name="email" class="form-field" aria-required="true" autocomplete="email">
+            </div>
+
+        </fieldset>
+
+        <fieldset>
+            <legend><h2>Op welk adres woon je</h2></legend>
+
+            <div>
+                <label for="country">Land *</label>
+                <select id="country" name="country" aria-required="true" autocomplete="country-name">
+                    <option value="">--</option>
+                    <option value="NLD" selected>Nederland</option>
+                    <option value="BEL">België</option>
+                    <option value="DUI">Duitsland</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="zipcode">Postcode *</label>
+                <input type="text" id="zipcode" name="zipcode" class="form-field" aria-required="true" autocomplete="postal-code">
+            </div>
+
+            <div>
+                <label for="housenumber">Huisnummer *</label>
+                <input type="text" id="housenumber" name="housenumber" class="form-field" aria-required="true" autocomplete="on">
+            </div>
+
+            <div>
+                <label for="housenumber-addition">Toevoeging</label>
+                <input type="text" id="housenumber-addition" name="housenumber-addition" class="form-field" autocomplete="on" aria-describedby="housenumber-addition-error-unknown housenumber-addition-error-valid-options" value="Z">
+                <!-- NOTE: error description either already shown after client-side validation else after submit -->
+                <div class="input-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </svg>
+                    <p id="housenumber-addition-error-unknown">Toevoeging is niet bekend</p>
+                    <p id="housenumber-addition-error-valid-options">De volgende toevoegingen zijn bekend voor dit adres: A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W</p>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend><h2>Legitimatie</h2></legend>
+
+            <div>
+                <label for="nationality">Nationaliteit *</label>
+                <select id="nationality" name="nationality" aria-required="true" autocomplete="country-name" aria-describedby="nationality-error-unknown">
+                    <option value="">Kies je nationaliteit</option>
+                    <option value="NLD">Nederland</option>
+                    <option value="BEL">België</option>
+                    <option value="DUI">Duitsland</option>
+                </select>
+                <!-- NOTE: error description either already shown after client-side validation else after submit -->
+                <div class="input-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </svg>
+                    <p id="nationality-error-unknown">Je moet een nationaliteit kiezen</p>
+                </div>
+            </div>
+
+            <div>
+                <label for="document-type">Legitimatietype *</label>
+                <select id="document-type" name="document-type" aria-required="true" autocomplete="off">
+                    <option value="">Kies je legitimatiebewijs</option>
+                    <option value="ID_CARD">Nederlandse ID kaart</option>
+                    <option value="PASSPORT">Nederlands paspoort</option>
+                    <option value="DUTCH_DRIVERS_LICENCE">Nederlands rijbewijs</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="document-number">Document nummer *</label>
+                <input type="text" id="document-number" name="document-number" class="form-field" aria-required="true" autocomplete="off">
+            </div>
+
+            <div>
+                <label for="document-expiry">Vervaldatum *</label>
+                <input type="text" id="document-expiry" name="document-expiry" class="form-field" aria-required="true" autocomplete="off" aria-describedby="document-expiry-error-format" value="24 dec 1933">
+                <!-- NOTE: error description either already shown after client-side validation else after submit -->
+                <div class="input-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </svg>
+                    <p id="document-expiry-error-format">Gebruik het formaat <span class="capitalize">dd-mm-jjjj</span></p>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend><h2>Vanaf welke rekening wil je betalen</h2></legend>
+            <p>Voor de maandelijkse betaling van de rekeningen werken we met automatische incasso.</p>
+
+            <div>
+                <label for="iban">IBAN / Rekeningnummer *</label>
+                <input type="text" id="iban" name="iban" class="form-field" aria-required="true" autocomplete="on">
+            </div>
+        </fieldset>
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="order-2">Naar lening</button>
+            <a href="/bestellen/winkelwagen" class="order-1"><span class="sr-only">&lt; </span>Terug</a>
+        </div>
+
+    </form>
+</main>
+
+</body>
+</html>
