@@ -232,12 +232,12 @@
             border: 0;
         }
 
-        .vodafone .vfz-optiongroup__item + .vfz-optiongroup__item {
+        .vodafone .vfz-optiongroup__radio .vfz-optiongroup__item + .vfz-optiongroup__item {
             margin-left: 1rem;
         }
 
         /* https://moderncss.dev/pure-css-custom-styled-radio-buttons/ */
-        .vodafone .vfz-optiongroup__item-radio,
+        .vodafone .vfz-optiongroup__radio-item,
         .vodafone .vfz-optiongroup__item-checkbox {
             display: grid;
             grid-template-columns: 1em auto;
@@ -257,8 +257,8 @@
 
             font: inherit;
             color: currentColor;
-            width: 1.15em;
-            height: 1.15em;
+            /* width: 1.15em; height: 1.15em; */
+            width: 20px; height: 20px;
             border: 1px solid #ccc;
             /* border-radius: 50%; */
             transform: translateY(-0.075em);
@@ -274,8 +274,8 @@
         .vodafone input[type="radio"]::before,
         .vodafone .vfz-optiongroup__item input[type="checkbox"]::before {
             content: "";
-            width: 0.5em;
-            height: 0.5em;
+            /* width: 0.5em; height: 0.5em; */
+            width: 10px; height: 10px;
             /* border-radius: 50%; */
             transform: scale(0);
             transition: 120ms transform ease-in-out;
@@ -314,6 +314,29 @@
             .form-group:not(.vfz-optiongroup) label {
                 padding-top: 14px;
             }
+        }
+
+
+        .vodafone .example--focussed {
+            outline: -webkit-focus-ring-color auto 1px;
+            outline-offset: 2px;
+        }
+
+        .vodafone .example-ti-valid {
+            border-radius: var(--border-radius-form-field);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vodafone .example-ti-valid::after {
+            content: '';
+            background-color: #090;
+            display: block;
+            height: 4px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
@@ -394,32 +417,32 @@
         <fieldset>
             <legend class="legend"><h2 class="heading">Je persoonsgegevens</h2></legend>
 
-            <fieldset class="fieldset vfz-optiongroup vfz-optiongroup--horizontal">
+            <fieldset class="fieldset vfz-optiongroup vfz-optiongroup__radio vfz-optiongroup--horizontal">
                 <legend class="legend">Type bestelling *</legend>
                 <div class="vfz-optiongroup__item">
-                    <div class="vfz-optiongroup__item-radio">
+                    <div class="vfz-optiongroup__radio-item">
                         <input type="radio" id="type-order-prive" name="type-order" value="prive" class="form-field" aria-required="true" checked>
                         <label for="type-order-prive">Privé</label>
                     </div>
                 </div>
                 <div class="vfz-optiongroup__item">
-                    <div class="vfz-optiongroup__item-radio">
+                    <div class="vfz-optiongroup__radio-item">
                         <input type="radio" id="type-order-zakelijk" name="type-order" value="zakelijk" class="form-field" aria-required="true">
                         <label for="type-order-zakelijk">Zakelijk</label>
                     </div>
                 </div>
             </fieldset>
 
-            <fieldset class="fieldset vfz-optiongroup vfz-optiongroup--horizontal">
+            <fieldset class="fieldset vfz-optiongroup vfz-optiongroup__radio vfz-optiongroup--horizontal">
                 <legend class="legend">Aanhef *</legend>
                 <div class="vfz-optiongroup__item">
-                    <div class="vfz-optiongroup__item-radio">
+                    <div class="vfz-optiongroup__radio-item">
                         <input type="radio" id="salutation-meneer" name="salutation" value="meneer" class="form-field" aria-required="true" checked>
                         <label for="salutation-meneer">Meneer</label>
                     </div>
                 </div>
                 <div class="vfz-optiongroup__item">
-                    <div class="vfz-optiongroup__item-radio">
+                    <div class="vfz-optiongroup__radio-item">
                         <input type="radio" id="salutation-mevrouw" name="salutation" value="mevrouw" class="form-field" aria-required="true">
                         <label for="salutation-mevrouw">Mevrouw</label>
                     </div>
@@ -642,10 +665,12 @@
         <fieldset class="fieldset vfz-optiongroup">
             <legend class="legend"><h2 class="heading">Bezorging</h2></legend>
 
-            <div class="vfz-optiongroup__item">
-                <div class="vfz-optiongroup__item-checkbox">
-                    <input type="checkbox" id="alternative-address" name="alternative-address" value="yes" class="form-field" aria-required="true">
-                    <label for="alternative-address">Ik wil mijn pakket op een ander adres laten bezorgen</label>
+            <div class="vfz-optiongroup vfz-optiongroup__checkbox">
+                <div class="vfz-optiongroup__item">
+                    <div class="vfz-optiongroup__item-checkbox">
+                        <input type="checkbox" id="alternative-address" name="alternative-address" value="yes" class="form-field" aria-required="true">
+                        <label for="alternative-address">Ik wil mijn pakket op een ander adres laten bezorgen</label>
+                    </div>
                 </div>
             </div>
         </fieldset>
@@ -659,6 +684,77 @@
         </div>
 
     </form>
+
+    <details>
+        <summary>Different states of form fields</summary>
+        <section>
+            <h2>Text input</h2>
+            <div class="fieldset form-group"><label for="example-text-input">ti-default</label><div><input id="example-text-input" type="text" class="form-field"></div></div>
+            <div class="fieldset form-group"><label for="example-text-input--focussed">ti-focussed</label><div><input id="example-text-input--focussed" type="text" class="form-field example--focussed"></div></div>
+            <div class="fieldset form-group"><label for="example-text-input--valid">ti-valid</label><div class="example-ti-valid"><input id="example-text-input--valid" type="text" class="form-field" aria-invalid="false"></div></div>
+            <div class="fieldset form-group">
+                <label for="example-text-input--invalid">ti-invalid</label>
+                <div>
+                    <input id="example-text-input--invalid" type="text" class="form-field" aria-invalid="true" aria-describedby="example-text-input--invalid-message">
+                    <div class="bg-error input-error">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" role="img" aria-hidden="true">
+                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                        <p id="example-text-input--invalid-message">error message</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <h2>Radio</h2>
+            <div class="vfz-optiongroup vfz-optiongroup__radio">
+                <div class="vfz-optiongroup__item">
+                    <div class="vfz-optiongroup__radio-item">
+                        <input type="radio" id="example-radio-1" name="example-radio" value="example-radio-1" class="form-field">
+                        <label for="example-radio-1">r-default</label>
+                    </div>
+                </div>
+                <div class="vfz-optiongroup__item">
+                    <div class="vfz-optiongroup__radio-item">
+                        <input type="radio" id="example-radio-2" name="example-radio" value="example-radio-2" class="form-field example--focussed">
+                        <label for="example-radio-2">r-focussed</label>
+                    </div>
+                </div>
+                <div class="vfz-optiongroup__item">
+                    <div class="vfz-optiongroup__radio-item">
+                        <input type="radio" id="example-radio-3" name="example-radio" value="example-radio-3" class="form-field" checked>
+                        <label for="example-radio-3">r-checked</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <h2>Checkbox</h2>
+            <div class="vfz-optiongroup vfz-optiongroup__checkbox">
+                <div class="vfz-optiongroup__item">
+                    <div class="vfz-optiongroup__item-checkbox">
+                        <input type="checkbox" id="example-checkbox-1" name="example-checkbox-1[]" value="example-checkbox-1" class="form-field">
+                        <label for="example-checkbox-1">c-default</label>
+                    </div>
+                </div>
+                <div class="vfz-optiongroup__item">
+                    <div class="vfz-optiongroup__item-checkbox">
+                        <input type="checkbox" id="example-checkbox-2" name="example-checkbox-2[]" value="example-checkbox-2" class="form-field example--focussed">
+                        <label for="example-checkbox-2">c-focussed</label>
+                    </div>
+                </div>
+                <div class="vfz-optiongroup__item">
+                    <div class="vfz-optiongroup__item-checkbox">
+                        <input type="checkbox" id="example-checkbox-3" name="example-checkbox-3[]" value="example-checkbox-3" class="form-field" checked>
+                        <label for="example-checkbox-3">c-checked</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <h2>Select</h2>
+        </section>
+    </details>
 </main>
 
 <script>
