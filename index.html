@@ -5,8 +5,49 @@
     <meta charset="utf-8">
     <title>Forms tester</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const brand = urlParams.get('brand') || 'whitelabel';
+    document.documentElement.classList.add(brand);
+    </script>
+
+    <!--
+        https://github.com/sindresorhus/modern-normalize
+    -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/2.0.0/modern-normalize.min.css" integrity="sha512-4xo8blKMVCiXpTaLzQSLSw3KFOVPWhm/TRtuPVc4WG6kUgjH6J03IBuG7JZPkcWMxJ5huwaBpOpnwYElP/m6wg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
     <style>
-    .d-flex {
+    :root {
+        --border-radius: 12px;
+        --border-radius-form-field: 6px;
+        --color-error-background: #fff;
+        --color-form-field-border: #333;
+        --color-text: #333;
+        --form-control-color: #333;
+    }
+    /* restore default user agent stylesheet styling */
+    body {
+        color: var(--color-text);
+        margin: 1rem;
+    }
+
+    a,
+    a:visited,
+    input,
+    textarea {
+        color: var(--color-text);
+    }
+
+    fieldset {
+        border-width: 0;
+        margin-inline: 0;
+        padding-inline: 0;
+        padding-block: 0;
+    }
+
+    /* .d-flex {
         display: flex;
     }
     .justify-content-between {
@@ -17,10 +58,11 @@
     }
     .order-2 {
         order: 2;
-    }
+    } */
     .capitalize {
         text-transform: uppercase;
     }
+
     .sr-only {
         position: absolute;
         width: 1px;
@@ -32,24 +74,262 @@
         clip-path: inset(50%);
         border: 0;
     }
+
     .bi {
         display: inline-block;
         vertical-align: -0.125em;
         fill: currentcolor;
     }
 
+    .fieldset {
+        padding-block: 1rem 0.5rem;
+    }
+
+    .form-group label {
+        display: block;
+    }
+
+    .vfz-optiongroup--horizontal {
+        /* display: flex; */
+    }
+
+    .vfz-optiongroup--horizontal .legend {
+        float: left;
+        width: 100%;
+    }
+
+    .vfz-optiongroup__item {
+        clear: left;
+        display: inline-block;
+    }
+
+    .legend .heading {
+        margin-block: 0;
+    }
+
+    .form-field:not([type="radio"], [type="checkbox"]) {
+        border: 1px solid var(--color-form-field-border);
+        border-radius: var(--border-radius-form-field);
+        width: 100%;
+    }
+
+    @media (min-width: 768px) {
+        main {
+            margin: 0 auto;
+            max-width: 680px;
+        }
+
+        .vfz-optiongroup--horizontal .legend,
+        .form-group label {
+            width: 200px;
+        }
+
+        .form-group:not(.vfz-optiongroup) {
+            display: flex;
+        }
+
+        .form-group:not(.vfz-optiongroup) > div {
+            width: calc(100% - 200px);
+        }
+
+        .d-flex {
+            display: flex;
+        }
+        .justify-content-between {
+            justify-content: space-between;
+        }
+        .order-1 {
+            order: 1;
+        }
+        .order-2 {
+            order: 2;
+        }
+    }
+
     .input-error {
+        border-bottom-left-radius: var(--border-radius-form-field);
+        border-bottom-right-radius: var(--border-radius-form-field);
         padding-inline-start: 2rem;
+        padding-block: 0.5rem;
         position: relative;
     }
-    .input-error .bi {
-        position: absolute;
-        left: .5rem;
+
+        .input-error .bi {
+            position: absolute;
+            left: .5rem;
+        }
+
+        .input-error p:first-of-type {
+            margin-top: 0;
+        }
+
+        .input-error p:last-of-type {
+            margin-bottom: 0;
+        }
+
+    .bg-error {
+        background-color: var(--color-error-background);
     }
+
+    .form-general-errors {
+        border-radius: var(--border-radius);
+    }
+
+        .form-general-errors--has-errors {
+            padding-inline: 1rem;
+            padding-block: 1rem;
+        }
+
+        .form-general-errors .heading {
+            margin-top: 0;
+        }
+
+    .back-link svg {
+        transform: rotate(90deg);
+        fill: currentcolor;
+        margin-right: 8px;
+    }
+
+    /* FOR TESTING PURPOSE ONLY, to mimic form error handling interaction */
+    .initially-hidden {
+        display: none !important;
+    }
+    /* FOR TESTING PURPOSE ONLY, to mimic form error handling interaction */
+
+    /* BRAND specific styling */
+    .vodafone {
+        --color-error-background: #fff5f5;
+        --color-form-field-border: #ccc;
+        --color-primary: #e60000;
+        --form-control-color: #007c92;
+    }
+
+        .vodafone .form-field:not([type="radio"], [type="checkbox"]) {
+            background-color: white;
+            padding: 0.75rem 1rem 0.75rem 0.75rem;
+        }
+
+        .vodafone .back-link,
+        .vodafone .btn-submit {
+            border-radius: var(--border-radius-form-field);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            margin-bottom: 1rem;
+            padding: 0 40px;
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .vodafone .back-link {
+            background-color: #666;
+        }
+
+        .vodafone .btn-submit {
+            background-color: var(--color-primary);
+            border: 0;
+        }
+
+        .vodafone .vfz-optiongroup__item + .vfz-optiongroup__item {
+            margin-left: 1rem;
+        }
+
+        /* https://moderncss.dev/pure-css-custom-styled-radio-buttons/ */
+        .vodafone .vfz-optiongroup__item-radio,
+        .vodafone .vfz-optiongroup__item-checkbox {
+            display: grid;
+            grid-template-columns: 1em auto;
+            gap: 0.5em;
+        }
+
+        .vodafone input[type="radio"],
+        .vodafone .vfz-optiongroup__item input[type="checkbox"] {
+            /* Add if not using autoprefixer */
+            /* -webkit-appearance: none; */
+            /* Remove most all native input styles */
+            appearance: none;
+            /* For iOS < 15 */
+            /* background-color: var(--form-background); */
+            /* Not removed via appearance */
+            margin: 0;
+
+            font: inherit;
+            color: currentColor;
+            width: 1.15em;
+            height: 1.15em;
+            border: 1px solid #ccc;
+            /* border-radius: 50%; */
+            transform: translateY(-0.075em);
+
+            display: grid;
+            place-content: center;
+        }
+
+        .vodafone input[type="radio"] {
+            border-radius: 50%;
+        }
+
+        .vodafone input[type="radio"]::before,
+        .vodafone .vfz-optiongroup__item input[type="checkbox"]::before {
+            content: "";
+            width: 0.5em;
+            height: 0.5em;
+            /* border-radius: 50%; */
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em var(--form-control-color);
+            /* Windows High Contrast Mode */
+            background-color: CanvasText;
+        }
+
+        .vodafone input[type="radio"]::before {
+            border-radius: 50%;
+        }
+
+        .vodafone input[type="radio"]:checked,
+        .vodafone .vfz-optiongroup__item input[type="checkbox"]:checked {
+            border-color: var(--form-control-color);
+        }
+
+        .vodafone input[type="radio"]:checked::before,
+        .vodafone .vfz-optiongroup__item input[type="checkbox"]:checked::before {
+            transform: scale(1);
+        }
+
+        /* .vodafone input[type="radio"]:focus {
+            outline: max(2px, 0.15em) solid currentColor;
+            outline-offset: max(2px, 0.15em);
+        } */
+
+        @media (min-width: 768px) {
+            .vodafone .back-link,
+            .vodafone .btn-submit {
+                height: 50px;
+                padding: 0 20px;
+                width: 271px;
+            }
+
+            .form-group:not(.vfz-optiongroup) label {
+                padding-top: 14px;
+            }
+        }
     </style>
 </head>
 
 <body>
+<header>
+    <form>
+        <label for="select-brand">brand</label>
+        <select id="select-brand">
+            <option value="whitelabel">whitelabel</option>
+            <option value="vodafone">vodafone</option>
+            <option value="ziggo">ziggo</option>
+        </select>
+    </form>
+</header>
+
 <main>
     <h1>Forms tester</h1>
 
@@ -66,7 +346,8 @@
         - implement server-side validation
     -->
 
-    <form method="post" action="/bestellen/gegevens-lening" novalidate>
+    <!-- <form method="post" action="/bestellen/gegevens-lening" novalidate> -->
+    <form method="post" action="" class="form" novalidate>
 
         <!--
             NOTE:
@@ -74,8 +355,17 @@
             - submitting the form (client-side), either by pressing the submit button or pressing ENTER key on keyboard when focus is in an input field
             - the form was submitted and backend validation found 1 or more issues
         -->
-        <div role="alert">
-            <h2>Er zijn vier problemen in dit formulier</h2>
+        <!--
+            https://dequeuniversity.com/tips/webpagechanges
+            https://accessibility.huit.harvard.edu/technique-form-feedback-live-regions
+
+            - the element with aria-live="polite" needs to be present in HTML on initial load so screen readers will know about this region
+            - aria-atomic="true" -> to read all the contents in the alert box (https://tink.uk/accessible-forms-with-aria-live-regions/)
+        -->
+        <div role="alert" aria-live="polite" aria-atomic="true" class="bg-error form-general-errors form-general-errors--initial"></div>
+
+        <div role="alert" aria-live="polite" aria-atomic="true" class="initially-hidden bg-error form-general-errors form-general-errors--has-errors" tabindex="-1">
+            <h2 class="heading">Er zijn vier problemen in dit formulier</h2>
             <ul>
                 <li>
                     <a href="#birthdate">
@@ -102,183 +392,320 @@
 
         <p>Alle velden gemarkeerd met een * zijn verplicht</p>
         <fieldset>
-            <legend><h2>Je persoonsgegevens</h2></legend>
+            <legend class="legend"><h2 class="heading">Je persoonsgegevens</h2></legend>
 
-            <fieldset>
-                <legend>Type bestelling *</legend>
-                <div>
-                    <input type="radio" id="type-order-prive" name="type-order" value="prive" class="form-field" aria-required="true" checked>
-                    <label for="type-order-prive">Privé</label>
+            <fieldset class="fieldset vfz-optiongroup vfz-optiongroup--horizontal">
+                <legend class="legend">Type bestelling *</legend>
+                <div class="vfz-optiongroup__item">
+                    <div class="vfz-optiongroup__item-radio">
+                        <input type="radio" id="type-order-prive" name="type-order" value="prive" class="form-field" aria-required="true" checked>
+                        <label for="type-order-prive">Privé</label>
+                    </div>
                 </div>
-                <div>
-                    <input type="radio" id="type-order-zakelijk" name="type-order" value="zakelijk" class="form-field" aria-required="true">
-                    <label for="type-order-zakelijk">Zakelijk</label>
+                <div class="vfz-optiongroup__item">
+                    <div class="vfz-optiongroup__item-radio">
+                        <input type="radio" id="type-order-zakelijk" name="type-order" value="zakelijk" class="form-field" aria-required="true">
+                        <label for="type-order-zakelijk">Zakelijk</label>
+                    </div>
                 </div>
             </fieldset>
 
-            <fieldset>
-                <legend>Aanhef *</legend>
-                <div>
-                    <input type="radio" id="salutation-meneer" name="salutation" value="meneer" class="form-field" aria-required="true" checked>
-                    <label for="salutation-meneer">Meneer</label>
+            <fieldset class="fieldset vfz-optiongroup vfz-optiongroup--horizontal">
+                <legend class="legend">Aanhef *</legend>
+                <div class="vfz-optiongroup__item">
+                    <div class="vfz-optiongroup__item-radio">
+                        <input type="radio" id="salutation-meneer" name="salutation" value="meneer" class="form-field" aria-required="true" checked>
+                        <label for="salutation-meneer">Meneer</label>
+                    </div>
                 </div>
-                <div>
-                    <input type="radio" id="salutation-mevrouw" name="salutation" value="mevrouw" class="form-field" aria-required="true">
-                    <label for="salutation-mevrouw">Mevrouw</label>
+                <div class="vfz-optiongroup__item">
+                    <div class="vfz-optiongroup__item-radio">
+                        <input type="radio" id="salutation-mevrouw" name="salutation" value="mevrouw" class="form-field" aria-required="true">
+                        <label for="salutation-mevrouw">Mevrouw</label>
+                    </div>
                 </div>
             </fieldset>
 
-            <div>
+            <div class="fieldset form-group">
                 <label for="initials">Voorletters *</label>
-                <!-- NOTE: not sure what works best, autocomplete="on" or autocomplete="given-name", should be tested -->
-                <input type="text" id="initials" name="initials" class="form-field" aria-required="true" autocomplete="on">
+                <div>
+                    <!-- NOTE: not sure what works best, autocomplete="on" or autocomplete="given-name", should be tested -->
+                    <input type="text" id="initials" name="initials" class="form-field" aria-required="true" autocomplete="on">
+                </div>
             </div>
 
-            <div>
+            <div class="fieldset form-group">
                 <label for="infix">Tussenvoegsels</label>
-                <input type="text" id="infix" name="infix" class="form-field" autocomplete="additional-name">
+                <div>
+                    <input type="text" id="infix" name="infix" class="form-field" autocomplete="additional-name">
+                </div>
             </div>
 
-            <div>
+            <div class="fieldset form-group">
                 <label for="lastname">Achternaam *</label>
-                <!--
-                    NOTE: Sometimes, browsers will spellcheck the information a user enters into a text input. To make sure user’s names will not be spellchecked, set the spellcheck attribute to false (spellcheck="false") on the input
-                -->
-                <input type="text" id="lastname" name="lastname" class="form-field" aria-required="true" autocomplete="family-name">
+                <div>
+                    <!--
+                        NOTE: Sometimes, browsers will spellcheck the information a user enters into a text input. To make sure user’s names will not be spellchecked, set the spellcheck attribute to false (spellcheck="false") on the input
+                    -->
+                    <input type="text" id="lastname" name="lastname" class="form-field" aria-required="true" autocomplete="family-name">
+                </div>
             </div>
 
-            <div>
-                <label for="birthdate">Geboortedatum</label>
-                <input type="text" id="birthdate" name="birthdate" class="form-field" autocomplete="bday" aria-invalid="true" aria-describedby="firstname-error-format">
-                <!-- NOTE: error description either already shown after client-side validation else after submit -->
-                <div class="input-error">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" role="img" aria-hidden="true">
-                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                    </svg>
-                    <p id="firstname-error-format">Gebruik het formaat <span class="capitalize">dd-mm-jjjj</span></p>
+            <div class="fieldset form-group">
+                <label for="birthdate-initial" class="initially-visible">Geboortedatum</label>
+                <label for="birthdate" class="initially-hidden">Geboortedatum</label>
+
+                <div class="initially-visible">
+                    <input type="text" id="birthdate-initial" name="birthdate-initial" class="form-field" autocomplete="bday">
+                </div>
+
+                <div class="initially-hidden">
+                    <input type="text" id="birthdate" name="birthdate" class="form-field" autocomplete="bday" aria-invalid="true" aria-describedby="firstname-error-format">
+                    <!-- NOTE: error description either already shown after client-side validation else after submit -->
+                    <div class="bg-error input-error">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" role="img" aria-hidden="true">
+                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                        <p id="firstname-error-format">Gebruik het formaat <span class="capitalize">dd-mm-jjjj</span></p>
+                    </div>
                 </div>
             </div>
 
         </fieldset>
 
-        <fieldset>
-            <legend><h2>Hoe kunnen we je bereiken</h2></legend>
+        <hr>
+
+        <fieldset class="fieldset">
+            <legend class="legend"><h2 class="heading">Hoe kunnen we je bereiken</h2></legend>
             <p>Wil je sms'jes ontvangen met de status van je bestelling? Vul dan je mobiele nummer in.</p>
 
-            <div>
+            <div class="fieldset form-group">
                 <label for="mobile-number">Mobiele telefoonnummer</label>
-                <input type="text" id="mobile-number" name="mobile-number" class="form-field" autocomplete="tel">
+                <div>
+                    <input type="text" id="mobile-number" name="mobile-number" class="form-field" autocomplete="tel">
+                </div>
             </div>
 
-            <div>
+            <div class="fieldset form-group">
                 <label for="email">E-mailadres *</label>
-                <input type="text" id="email" name="email" class="form-field" aria-required="true" autocomplete="email">
+                <div>
+                    <input type="text" id="email" name="email" class="form-field" aria-required="true" autocomplete="email">
+                </div>
             </div>
 
         </fieldset>
 
-        <fieldset>
-            <legend><h2>Op welk adres woon je</h2></legend>
+        <hr>
 
-            <div>
+        <fieldset class="fieldset">
+            <legend class="legend"><h2 class="heading">Op welk adres woon je</h2></legend>
+
+            <div class="fieldset form-group">
                 <label for="country">Land *</label>
-                <select id="country" name="country" aria-required="true" autocomplete="country-name">
-                    <option value="">--</option>
-                    <option value="NLD" selected>Nederland</option>
-                    <option value="BEL">België</option>
-                    <option value="DUI">Duitsland</option>
-                </select>
+                <div>
+                    <select id="country" class="form-field" name="country" aria-required="true" autocomplete="country-name">
+                        <option value="">--</option>
+                        <option value="NLD" selected>Nederland</option>
+                        <option value="BEL">België</option>
+                        <option value="DUI">Duitsland</option>
+                    </select>
+                </div>
             </div>
 
-            <div>
+            <div class="fieldset form-group">
                 <label for="zipcode">Postcode *</label>
-                <input type="text" id="zipcode" name="zipcode" class="form-field" aria-required="true" autocomplete="postal-code">
+                <div>
+                    <input type="text" id="zipcode" name="zipcode" class="form-field" aria-required="true" autocomplete="postal-code">
+                </div>
             </div>
 
-            <div>
+            <div class="fieldset form-group">
                 <label for="housenumber">Huisnummer *</label>
-                <input type="text" id="housenumber" name="housenumber" class="form-field" aria-required="true" autocomplete="on">
+                <div>
+                    <input type="text" id="housenumber" name="housenumber" class="form-field" aria-required="true" autocomplete="on">
+                </div>
             </div>
 
-            <div>
-                <label for="housenumber-addition">Toevoeging</label>
-                <input type="text" id="housenumber-addition" name="housenumber-addition" class="form-field" autocomplete="on" aria-invalid="true" aria-describedby="housenumber-addition-error-unknown housenumber-addition-hint-valid-options" value="Z">
-                <!-- NOTE: error description either already shown after client-side validation else after submit -->
-                <div class="input-error">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" role="img" aria-hidden="true">
-                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                    </svg>
-                    <p id="housenumber-addition-error-unknown">Toevoeging is niet bekend</p>
-                    <p id="housenumber-addition-hint-valid-options">De volgende toevoegingen zijn bekend voor dit adres: A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W</p>
+            <div class="fieldset form-group">
+                <label for="housenumber-addition-initial" class="initially-visible">Toevoeging</label>
+                <label for="housenumber-addition" class="initially-hidden">Toevoeging</label>
+
+                <div class="initially-visible">
+                    <input type="text" id="housenumber-addition-initial" name="housenumber-addition-initial" class="form-field" autocomplete="on" value="Z">
+                </div>
+
+                <div class="initially-hidden">
+                    <input type="text" id="housenumber-addition" name="housenumber-addition" class="form-field" autocomplete="on" aria-invalid="true" aria-describedby="housenumber-addition-error-unknown housenumber-addition-hint-valid-options" value="Z">
+                    <!-- NOTE: error description either already shown after client-side validation else after submit -->
+                    <div class="bg-error input-error">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" role="img" aria-hidden="true">
+                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                        <p id="housenumber-addition-error-unknown">Toevoeging is niet bekend</p>
+                        <p id="housenumber-addition-hint-valid-options">De volgende toevoegingen zijn bekend voor dit adres: A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W</p>
+                    </div>
                 </div>
             </div>
         </fieldset>
 
-        <fieldset>
-            <legend><h2>Legitimatie</h2></legend>
+        <hr>
 
-            <div>
-                <label for="nationality">Nationaliteit *</label>
-                <select id="nationality" name="nationality" aria-required="true" autocomplete="country-name" aria-invalid="true" aria-describedby="nationality-error-unknown">
-                    <option value="">Kies je nationaliteit</option>
-                    <option value="NLD">Nederland</option>
-                    <option value="BEL">België</option>
-                    <option value="DUI">Duitsland</option>
-                </select>
-                <!-- NOTE: error description either already shown after client-side validation else after submit -->
-                <div class="input-error">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" role="img" aria-hidden="true">
-                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                    </svg>
-                    <p id="nationality-error-unknown">Je moet een nationaliteit kiezen</p>
+        <fieldset class="fieldset">
+            <legend class="legend"><h2 class="heading">Legitimatie</h2></legend>
+
+            <div class="fieldset form-group">
+                <label for="nationality-initial" class="initially-visible">Nationaliteit *</label>
+                <label for="nationality" class="initially-hidden">Nationaliteit *</label>
+
+                <div class="initially-visible">
+                    <select id="nationality-initial" class="form-field" name="nationality-initial" aria-required="true" autocomplete="country-name">
+                        <option value="">Kies je nationaliteit</option>
+                        <option value="NLD">Nederland</option>
+                        <option value="BEL">België</option>
+                        <option value="DUI">Duitsland</option>
+                    </select>
+                </div>
+
+                <div class="initially-hidden">
+                    <select id="nationality" class="form-field" name="nationality" aria-required="true" autocomplete="country-name" aria-invalid="true" aria-describedby="nationality-error-unknown">
+                        <option value="">Kies je nationaliteit</option>
+                        <option value="NLD">Nederland</option>
+                        <option value="BEL">België</option>
+                        <option value="DUI">Duitsland</option>
+                    </select>
+                    <!-- NOTE: error description either already shown after client-side validation else after submit -->
+                    <div class="bg-error input-error">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" role="img" aria-hidden="true">
+                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                        <p id="nationality-error-unknown">Je moet een nationaliteit kiezen</p>
+                    </div>
                 </div>
             </div>
 
-            <div>
+            <div class="fieldset form-group">
                 <label for="document-type">Legitimatietype *</label>
-                <select id="document-type" name="document-type" aria-required="true" autocomplete="off">
-                    <option value="">Kies je legitimatiebewijs</option>
-                    <option value="ID_CARD">Nederlandse ID kaart</option>
-                    <option value="PASSPORT">Nederlands paspoort</option>
-                    <option value="DUTCH_DRIVERS_LICENCE">Nederlands rijbewijs</option>
-                </select>
+                <div>
+                    <select id="document-type" class="form-field" name="document-type" aria-required="true" autocomplete="off">
+                        <option value="">Kies je legitimatiebewijs</option>
+                        <option value="ID_CARD">Nederlandse ID kaart</option>
+                        <option value="PASSPORT">Nederlands paspoort</option>
+                        <option value="DUTCH_DRIVERS_LICENCE">Nederlands rijbewijs</option>
+                    </select>
+                </div>
             </div>
 
-            <div>
+            <div class="fieldset form-group">
                 <label for="document-number">Document nummer *</label>
-                <input type="text" id="document-number" name="document-number" class="form-field" aria-required="true" autocomplete="off">
+                <div>
+                    <input type="text" id="document-number" name="document-number" class="form-field" aria-required="true" autocomplete="off">
+                </div>
             </div>
 
-            <div>
-                <label for="document-expiry">Vervaldatum *</label>
-                <input type="text" id="document-expiry" name="document-expiry" class="form-field" aria-required="true" autocomplete="off" aria-invalid="true" aria-describedby="document-expiry-error-format" value="24 dec 1933">
-                <!-- NOTE: error description either already shown after client-side validation else after submit -->
-                <div class="input-error">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" role="img" aria-hidden="true">
-                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                    </svg>
-                    <p id="document-expiry-error-format">Gebruik het formaat <span class="capitalize">dd-mm-jjjj</span></p>
+            <div class="fieldset form-group">
+                <label for="document-expiry-initial" class="initially-visible">Vervaldatum *</label>
+                <label for="document-expiry" class="initially-hidden">Vervaldatum *</label>
+
+                <div class="initially-visible">
+                    <input type="text" id="document-expiry-initial" name="document-expiry-initial" class="form-field" aria-required="true" autocomplete="off" value="24 dec 1933">
+                </div>
+
+                <div class="initially-hidden">
+                    <input type="text" id="document-expiry" name="document-expiry" class="form-field" aria-required="true" autocomplete="off" aria-invalid="true" aria-describedby="document-expiry-error-format" value="24 dec 1933">
+                    <!-- NOTE: error description either already shown after client-side validation else after submit -->
+                    <div class="bg-error input-error">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" role="img" aria-hidden="true">
+                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                        <p id="document-expiry-error-format">Gebruik het formaat <span class="capitalize">dd-mm-jjjj</span></p>
+                    </div>
                 </div>
             </div>
         </fieldset>
 
-        <fieldset>
-            <legend><h2>Vanaf welke rekening wil je betalen</h2></legend>
+        <hr>
+
+        <fieldset class="fieldset">
+            <legend class="legend"><h2 class="heading">Vanaf welke rekening wil je betalen</h2></legend>
             <p>Voor de maandelijkse betaling van de rekeningen werken we met automatische incasso.</p>
 
-            <div>
+            <div class="fieldset form-group">
                 <label for="iban">IBAN / Rekeningnummer *</label>
-                <input type="text" id="iban" name="iban" class="form-field" aria-required="true" autocomplete="on">
+                <div>
+                    <input type="text" id="iban" name="iban" class="form-field" aria-required="true" autocomplete="on">
+                </div>
             </div>
         </fieldset>
 
-        <div class="d-flex justify-content-between">
-            <button type="submit" class="order-2">Naar lening</button>
-            <a href="/bestellen/winkelwagen" class="order-1"><span class="sr-only">&lt; </span>Terug</a>
+        <hr>
+
+        <fieldset class="fieldset vfz-optiongroup">
+            <legend class="legend"><h2 class="heading">Bezorging</h2></legend>
+
+            <div class="vfz-optiongroup__item">
+                <div class="vfz-optiongroup__item-checkbox">
+                    <input type="checkbox" id="alternative-address" name="alternative-address" value="yes" class="form-field" aria-required="true">
+                    <label for="alternative-address">Ik wil mijn pakket op een ander adres laten bezorgen</label>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="fieldset d-flex justify-content-between">
+            <button type="submit" class="order-2 btn-submit">Naar lening</button>
+            <a href="" class="order-1 back-link">
+                <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="Chevron__ChevronLeft-sc-1kdvvpp-0 PreviousButton___StyledChevronLeft-sc-kucr93-1 kcniup hIeeye" name="chevron" height="1em" width="1em" preserveAspectRatio="xMinYMin"><path d="M14.36,4.31a2,2,0,0,1,0,2.83L8,13.5,1.64,7.14a2,2,0,0,1,0-2.83L8,10.67Z"></path></svg></span>
+                Terug
+            </a>
         </div>
 
     </form>
 </main>
 
+<script>
+const selectElement = document.querySelector('#select-brand');
+selectElement.value = brand;
+selectElement.addEventListener('change', (event) => {
+    const val = event.target.value;
+    location.href = val ? `?brand=${val}` : '/';
+});
+
+document.querySelector('.back-link').setAttribute('href', `${location.href}`);
+
+const initialFormGeneralErrors = document.querySelector('.form-general-errors--initial');
+const formGeneralErrors = document.querySelector('.form-general-errors--has-errors');
+const initiallyVisible = Array.from(document.querySelectorAll('.initially-visible'));
+const initiallyHidden = Array.from(document.querySelectorAll('.initially-hidden'));
+
+const handleSubmit = (evt) => {
+    initialFormGeneralErrors.classList.add('initially-hidden');
+
+    initiallyHidden.forEach((elm) => {
+        elm.classList.remove('initially-hidden');
+    });
+
+    initiallyVisible.forEach((elm) => {
+        elm.classList.add('initially-hidden');
+    });
+
+    // smooth scroll to form general errors only when users have it enabled
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mediaQuery.matches) {
+        formGeneralErrors.scrollIntoView();
+        formGeneralErrors.focus();
+    } else {
+        formGeneralErrors.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+            formGeneralErrors.focus();
+        }, 500);
+    }
+};
+
+const formElement = document.querySelector('.form');
+formElement.setAttribute('action', `${location.href}`);
+formElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    handleSubmit(evt);
+});
+</script>
 </body>
 </html>
